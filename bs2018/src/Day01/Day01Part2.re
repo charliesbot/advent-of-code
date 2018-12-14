@@ -18,4 +18,5 @@ let rec firstRepeatedFreq = (frequencies, sumFreq, acumSum) =>
   };
 
 let set = Set.make(~id=(module IntCmp));
+
 firstRepeatedFreq(input, set, 0) |> Js.log;
