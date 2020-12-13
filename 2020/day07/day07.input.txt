@@ -592,4 +592,3 @@ mirrored violet bags contain 4 mirrored blue bags.
 vibrant red bags contain 4 striped lavender bags, 1 clear fuchsia bag.
 striped yellow bags contain 3 vibrant red bags.
 dotted silver bags contain 1 muted blue bag, 3 shiny teal bags, 2 plaid coral bags, 1 dim aqua bag.
-

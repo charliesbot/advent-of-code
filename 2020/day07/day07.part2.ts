@@ -1,37 +1,42 @@
 import { getInputLines } from "../../utils.ts";
 
-const lines = await getInputLines("./day07.input.txt");
+type Data = { [key: string]: { [c: string]: number } };
 
-const nameRegex = /[a-z]+ [a-z]+/;
-const reg = /(?:(\d+) ([a-z]+ [a-z]+))+/g;
-const bags = lines.map((line: string) => {
-  const name = line.match(nameRegex)![0];
-  const children = [...line.matchAll(reg)].map(([, quantity, name]) => ({
-    quantity: +quantity,
-    name,
-  }));
-
-  return { name, children };
-});
-
-const poss = getPossibleParents("shiny gold", bags);
-
-console.log(poss.length - 1);
-
-function getPossibleParents(name: string, bags: any) {
-  const possibles: string[] = [];
-  req(name);
-  return possibles;
-
-  function req(name: string) {
-    possibles.push(name);
-    const children = bags.filter((bag: any) =>
-      bag.children.some((child: any) => child.name == name)
-    );
-    children.forEach((child: any) => {
-      if (!possibles.includes(child.name)) {
-        req(child.name);
-      }
-    });
+const getParents = (searchColor: string, data: Data, set: Set<string>) => {
+  if (!data[searchColor] || set.has(searchColor)) {
+    return set;
   }
-}
+
+  Object.keys(data[searchColor]).forEach((k) => {
+    getParents(k, data, set);
+    set.add(k);
+  });
+};
+
+const getResult = async () => {
+  const lines = await getInputLines("./day07.input.txt");
+
+  const hash: Data = {};
+
+  lines.forEach((line) => {
+    const nameRegex = /[a-z]+ [a-z]+/;
+    const reg = /(?:(\d+) ([a-z]+ [a-z]+))+/g;
+    const rootName = line.match(nameRegex)![0];
+    [...line.matchAll(reg)].forEach(([, quantity, name]) => {
+      hash[name] = {
+        ...(hash[name] ?? {}),
+        [rootName]: parseInt(quantity),
+      };
+    });
+  });
+
+  const colors: Set<string> = new Set();
+
+  getParents("shiny gold", hash, colors);
+
+  return colors.size;
+};
+
+const result = await getResult();
+
+console.log(result);

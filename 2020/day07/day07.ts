@@ -1,49 +1,40 @@
 import { getInputLines } from "../../utils.ts";
 
-const parseColor = (color: string) => {
-  const [number, ...colorNameBag] = color.split(" ");
-  colorNameBag.pop();
-  const actualName = colorNameBag.join("_");
+type Data = { [key: string]: { [c: string]: number } };
 
-  const amount = parseInt(number);
+const getParents = (searchColor: string, data: Data, set: Set<string>) => {
+  if (!data[searchColor] || set.has(searchColor)) {
+    return set;
+  }
 
-  return { actualName, amount: isNaN(amount) ? 0 : amount };
+  Object.keys(data[searchColor]).forEach((k) => {
+    getParents(k, data, set);
+    set.add(k);
+  });
 };
 
 const getResult = async () => {
   const lines = await getInputLines("./day07.input.txt");
 
-  const hash: { [key: string]: { [c: string]: number } } = {};
+  const hash: Data = {};
 
   lines.forEach((line) => {
-    const [rootColorBags, colors] = line.split("contain");
-    const [rootColor] = rootColorBags
-      .split(" bags")
-      .map((m) => m.replace(" ", "_"));
-
-    const mappedColors = colors.split(", ").map((c) => parseColor(c.trim()));
-    mappedColors.forEach((m) => {
-      hash[m.actualName] = {
-        ...(hash[m.actualName] ?? {}),
-        [rootColor]: m.amount,
+    const nameRegex = /[a-z]+ [a-z]+/;
+    const reg = /(?:(\d+) ([a-z]+ [a-z]+))+/g;
+    const rootName = line.match(nameRegex)![0];
+    [...line.matchAll(reg)].forEach(([, quantity, name]) => {
+      hash[name] = {
+        ...(hash[name] ?? {}),
+        [rootName]: parseInt(quantity),
       };
-    }, {});
+    });
   });
 
-  let counter = 0;
+  const colors: Set<string> = new Set();
 
-  counter += Object.keys(hash["shiny_gold"]).length;
-  console.log(hash);
-  const set: Set<string> = new Set();
+  getParents("shiny gold", hash, colors);
 
-  Object.keys(hash).forEach((k) => {
-    const keys = Object.keys(hash[k]);
-    if (keys.includes("shiny_gold")) {
-      set.add(k);
-    }
-  });
-
-  return counter + set.size;
+  return colors.size;
 };
 
 const result = await getResult();
