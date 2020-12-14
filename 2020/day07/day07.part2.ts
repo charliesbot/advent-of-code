@@ -2,6 +2,27 @@ import { getInputLines } from "../../utils.ts";
 
 type Data = { [key: string]: { [c: string]: number } };
 
+const BFS = (hash: Data) => {
+  const queue = [{ color: "shiny gold", parent: 1, value: 1 }];
+  let counter = 0;
+
+  while (queue.length > 0) {
+    const { color, parent, value } = queue.pop()!;
+    const children = parent * value;
+    counter = counter + children;
+
+    if (!hash[color]) {
+      continue;
+    }
+
+    Object.entries(hash[color]).forEach(([k, v]) => {
+      queue.push({ color: k, parent: children, value: v });
+    });
+  }
+
+  return counter - 1;
+};
+
 const getResult = async () => {
   const lines = await getInputLines("./day07.input.txt");
 
@@ -19,28 +40,7 @@ const getResult = async () => {
     });
   });
 
-  const BFS = () => {
-    const queue = [{ color: "shiny gold", parent: 1, value: 1 }];
-    let counter = 0;
-
-    while (queue.length > 0) {
-      const { color, parent, value } = queue.pop()!;
-      const children = parent * value;
-      counter = counter + children;
-
-      if (!hash[color]) {
-        continue;
-      }
-
-      Object.entries(hash[color]).forEach(([k, v]) => {
-        queue.push({ color: k, parent: children, value: v });
-      });
-    }
-
-    return counter - 1;
-  };
-
-  const total = BFS();
+  const total = BFS(hash);
 
   return total;
 };
