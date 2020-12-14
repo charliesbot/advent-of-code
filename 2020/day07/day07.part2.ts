@@ -2,17 +2,6 @@ import { getInputLines } from "../../utils.ts";
 
 type Data = { [key: string]: { [c: string]: number } };
 
-const getParents = (searchColor: string, data: Data, set: Set<string>) => {
-  if (!data[searchColor] || set.has(searchColor)) {
-    return set;
-  }
-
-  Object.keys(data[searchColor]).forEach((k) => {
-    getParents(k, data, set);
-    set.add(k);
-  });
-};
-
 const getResult = async () => {
   const lines = await getInputLines("./day07.input.txt");
 
@@ -23,18 +12,37 @@ const getResult = async () => {
     const reg = /(?:(\d+) ([a-z]+ [a-z]+))+/g;
     const rootName = line.match(nameRegex)![0];
     [...line.matchAll(reg)].forEach(([, quantity, name]) => {
-      hash[name] = {
-        ...(hash[name] ?? {}),
-        [rootName]: parseInt(quantity),
+      hash[rootName] = {
+        ...(hash[rootName] ?? {}),
+        [name]: parseInt(quantity),
       };
     });
   });
 
-  const colors: Set<string> = new Set();
+  const BFS = () => {
+    const queue = [{ color: "shiny gold", parent: 1, value: 1 }];
+    let counter = 0;
 
-  getParents("shiny gold", hash, colors);
+    while (queue.length > 0) {
+      const { color, parent, value } = queue.pop()!;
+      const children = parent * value;
+      counter = counter + children;
 
-  return colors.size;
+      if (!hash[color]) {
+        continue;
+      }
+
+      Object.entries(hash[color]).forEach(([k, v]) => {
+        queue.push({ color: k, parent: children, value: v });
+      });
+    }
+
+    return counter - 1;
+  };
+
+  const total = BFS();
+
+  return total;
 };
 
 const result = await getResult();
