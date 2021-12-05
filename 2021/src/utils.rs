@@ -12,3 +12,10 @@ pub fn read_input_file(path: &str) -> Result<Vec<String>, Error> {
 
     Ok(data)
 }
+
+pub fn convert_string_to_int_vector(vector: Vec<String>) -> Vec<i32> {
+    vector
+        .iter()
+        .map(|x| x.parse().unwrap())
+        .collect::<Vec<i32>>()
+}
