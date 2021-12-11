@@ -18,17 +18,11 @@ pub fn day01_part2() {
         utils::convert_string_to_int_vector(utils::read_input_file("src/day01_input.txt").unwrap());
 
     let mut result = 0;
-    let mut value1 = numbers[0] + numbers[1] + numbers[2];
-    let mut value2 = numbers[1] + numbers[2];
 
     for index in 3..numbers.len() {
-        value2 = value2 + numbers[index];
-        if value2 > value1 {
+        if numbers[index] > numbers[index - 3] {
             result = result + 1;
         }
-
-        value1 = value2;
-        value2 = value2 - numbers[index - 2];
     }
 
     println!("{}", result);
