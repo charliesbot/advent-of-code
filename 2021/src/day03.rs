@@ -14,7 +14,7 @@ pub fn day03() {
         let mut zeros = 0;
         let mut ones = 0;
         for y in 0..binary_diagnostic.len() {
-            if (binary_diagnostic[y][x] == '0') {
+            if binary_diagnostic[y][x] == '0' {
                 zeros = zeros + 1;
             } else {
                 ones = ones + 1;
