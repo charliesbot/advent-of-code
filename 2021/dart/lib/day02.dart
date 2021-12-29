@@ -1,6 +1,6 @@
 import 'utils.dart' as utils;
 
-void day02() {
+int day02() {
   var lines = utils.readFile("../inputs/day02.txt");
   var depth = 0;
   var horizontal = 0;
@@ -23,10 +23,10 @@ void day02() {
     }
   }
 
-  print(depth * horizontal);
+  return depth * horizontal;
 }
 
-void day02Part2() {
+int day02Part2() {
   var lines = utils.readFile("../inputs/day02.txt");
   var depth = 0;
   var horizontal = 0;
@@ -51,5 +51,5 @@ void day02Part2() {
     }
   }
 
-  print(depth * horizontal);
+  return depth * horizontal;
 }

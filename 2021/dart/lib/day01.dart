@@ -16,10 +16,10 @@ int core(int initialIndex) {
   return increased;
 }
 
-void day01() {
-  print(core(1));
+int day01() {
+  return core(1);
 }
 
-void day01Part2() {
-  print(core(3));
+int day01Part2() {
+  return core(3);
 }
