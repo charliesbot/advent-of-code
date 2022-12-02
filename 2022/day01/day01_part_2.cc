@@ -1,30 +1,27 @@
 #include "../utils/file_reader.h"
 #include <algorithm>
 #include <fstream>
+#include <functional>
 #include <iostream>
-#include <queue>
 #include <string>
+#include <vector>
 
 int getElfWithMaxCalories() {
   FileReader file_reader("../inputs/day01.txt");
+  std::vector<int> calories;
   int counter = 0;
-  std::priority_queue<int> priority_queue;
   for (std::string line : file_reader) {
     if (line.empty()) {
-      priority_queue.push(counter);
+      calories.push_back(counter);
       counter = 0;
       continue;
     }
     counter += std::stoi(line);
   }
 
-  int top_sum = 0;
-  for (int i = 1; i <= 3; i++) {
-    top_sum += priority_queue.top();
-    priority_queue.pop();
-  }
+  sort(calories.begin(), calories.end(), std::greater<int>());
 
-  return top_sum;
+  return calories.at(0) + calories.at(1) + calories.at(2);
 }
 
 int main() { std::cout << getElfWithMaxCalories(); }
