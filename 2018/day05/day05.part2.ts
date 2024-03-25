@@ -1,7 +1,7 @@
 import { input } from "./day05.input";
 import { polymerCount } from "./day05";
 
-const nextChar = char => String.fromCharCode(char.charCodeAt(0) + 1);
+const nextChar = (char: String) => String.fromCharCode(char.charCodeAt(0) + 1);
 
 const shortestPolymer = (polymer: string) => {
   let minLength = polymer.length;

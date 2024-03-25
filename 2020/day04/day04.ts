@@ -18,7 +18,7 @@ const getResult = async () => {
     let keys = 0;
     const hash: { [key: string]: boolean } = { ...requiredFields };
     const keyValues = paragraph.split(" ");
-    keyValues.forEach((kV) => {
+    keyValues.forEach((kV: string) => {
       const [key] = kV.split(":");
       if (hash[key] === false) {
         hash[key] = true;
