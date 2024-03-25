@@ -1,7 +1,18 @@
 {
   "name": "Advent of Code",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "postCreateCommand": "sh .devcontainer/postCreateCommand.sh",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/rust:1": {
+      "version": "latest"
+    },
+    "ghcr.io/shyim/devcontainers-features/bun:0": {
+      "version": "latest"
+    }
+  },
   // "forwardPorts": [],
-  "postCreateCommand": "",
   "remoteUser": "root"
 }
