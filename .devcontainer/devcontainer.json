@@ -1,0 +1,7 @@
+{
+  "name": "Advent of Code",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  // "forwardPorts": [],
+  "postCreateCommand": "",
+  "remoteUser": "root"
+}
