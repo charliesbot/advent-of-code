@@ -1,4 +1,4 @@
-import { readFile } from "../../../utils.deno.ts";
+import { getListsAsNumbers } from "./day01.utils.ts";
 
 async function totalDistanceBetweenLists(left: number[], right: number[]) {
   left.sort((a, b) => a - b);
@@ -12,14 +12,5 @@ async function totalDistanceBetweenLists(left: number[], right: number[]) {
   return totalDistance;
 }
 
-const leftList: number[] = [];
-const rightList: number[] = [];
-
-const lines = await readFile("./day01.input.txt");
-lines.forEach((line) => {
-  const [left, right] = line.trim().split(/\s+/).map(Number);
-  leftList.push(left);
-  rightList.push(right);
-});
-
+const { leftList, rightList } = await getListsAsNumbers();
 console.log(await totalDistanceBetweenLists(leftList, rightList));
