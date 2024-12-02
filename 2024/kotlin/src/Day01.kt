@@ -1,4 +1,3 @@
-import java.util.PriorityQueue
 import kotlin.math.abs
 
 fun getListAsNumbers(lines: List<String>): Pair<List<Int>, List<Int>> {
@@ -16,14 +15,12 @@ fun getListAsNumbers(lines: List<String>): Pair<List<Int>, List<Int>> {
 fun main() {
     fun part1(input: List<String>): Int {
         val (leftList, rightList) = getListAsNumbers(input)
-        val leftHeap = PriorityQueue(leftList)
-        val rightHeap = PriorityQueue(rightList)
+        val sortedLeftList= leftList.sorted()
+        val sortedRightList = rightList.sorted()
         var totalSum = 0
-
-        while (leftHeap.isNotEmpty() && rightHeap.isNotEmpty()) {
-            totalSum += abs(leftHeap.poll() - rightHeap.poll())
+        for (i in sortedLeftList.indices) {
+            totalSum += abs(sortedLeftList[i] - sortedRightList[i])
         }
-
         return totalSum
     }
 
@@ -31,15 +28,13 @@ fun main() {
         val (leftList, rightList) = getListAsNumbers(input)
         val scores = mutableMapOf<Int, Int>()
         var finalScore = 0
-
         rightList.forEach { r ->
-            scores[r] = (scores[r] ?: 0) + 1 // Increment the count for each number
+            scores[r] = (scores[r] ?: 0) + 1
         }
         leftList.forEach { l ->
             finalScore += l * (scores[l] ?: 0)
 
         }
-
         return finalScore
     }
 
